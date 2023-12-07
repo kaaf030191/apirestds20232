@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\0.0.DataTransferLayer\0.0.DataTransferLayer.csproj" />
     <ProjectReference Include="..\1.0.HelpersLayer\1.0.HelpersLayer.csproj" />
     <ProjectReference Include="..\3.0.BusinessLayer\3.0.BusinessLayer.csproj" />
