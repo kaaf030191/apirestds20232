@@ -1,9 +1,13 @@
 ﻿using _5._0.DataAccessLayer.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace _5._0.DataAccessLayer.Entities
 {
+    [Table("tuser")]
     public class User : EntityGeneric
     {
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string idUser { get; set; }
         public string username { get; set; }
         public string password { get; set; }
