@@ -2,7 +2,6 @@
 using _4._0.RepositoryLayer.Repository;
 using _5._0.DataAccessLayer.Connection;
 using _5._0.DataAccessLayer.Entities;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace _5._0.DataAccessLayer.Query
 {
@@ -15,7 +14,28 @@ namespace _5._0.DataAccessLayer.Query
 
         public DtoUser getByPk(string pk)
         {
-            throw new NotImplementedException();
+            using DataBaseContext dbc = new();
+
+            User user = dbc.Users.Find(pk);
+
+            DtoUser dtoUser = null;
+
+            if (user is not null)
+            {
+                dtoUser = new();
+
+                dtoUser.idUser = user.idUser;
+                dtoUser.username = user.username;
+                dtoUser.firstName = user.firstName;
+                dtoUser.surName = user.surName;
+                dtoUser.dni = user.dni;
+                dtoUser.birthDate = user.birthDate;
+                dtoUser.gender = user.gender;
+                dtoUser.registerDate = user.registerDate;
+                dtoUser.modificationDate = user.modificationDate;
+            }
+
+            return dtoUser;
         }
 
         public int insert(DtoUser dto)

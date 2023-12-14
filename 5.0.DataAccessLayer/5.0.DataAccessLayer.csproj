@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>_5._0.DataAccessLayer</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

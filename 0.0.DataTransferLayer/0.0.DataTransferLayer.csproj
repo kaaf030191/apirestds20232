@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>_0._0.DataTransferLayer</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
 </Project>
