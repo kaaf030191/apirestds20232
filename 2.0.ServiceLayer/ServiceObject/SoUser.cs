@@ -5,5 +5,7 @@ namespace _2._0.ServiceLayer.ServiceObject
     public class SoUser
     {
         public DtoUser dtoUser { get; set; }
+
+        public List<DtoUser> listDtoUser { get; set; }
     }
 }

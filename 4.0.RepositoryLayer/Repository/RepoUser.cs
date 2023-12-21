@@ -3,5 +3,8 @@ using _4._0.RepositoryLayer.Generic;
 
 namespace _4._0.RepositoryLayer.Repository
 {
-    public interface RepoUser : RepoGeneric<DtoUser> { }
+    public interface RepoUser : RepoGeneric<DtoUser>
+    {
+        public List<DtoUser> getAll();
+    }
 }

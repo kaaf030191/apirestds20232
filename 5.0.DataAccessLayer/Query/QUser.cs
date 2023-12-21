@@ -12,6 +12,34 @@ namespace _5._0.DataAccessLayer.Query
             throw new NotImplementedException();
         }
 
+        public List<DtoUser> getAll()
+        {
+            using DataBaseContext dbc = new();
+
+            List<User> listUser = dbc.Users.ToList();
+
+            List<DtoUser> listDtoUser = new List<DtoUser>();
+
+            for(int i = 0; i < listUser.Count; i++)
+            {
+                DtoUser dtoUser = new();
+
+                dtoUser.idUser = listUser[i].idUser;
+                dtoUser.username = listUser[i].username;
+                dtoUser.firstName = listUser[i].firstName;
+                dtoUser.surName = listUser[i].surName;
+                dtoUser.dni = listUser[i].dni;
+                dtoUser.birthDate = listUser[i].birthDate;
+                dtoUser.gender = listUser[i].gender;
+                dtoUser.registerDate = listUser[i].registerDate;
+                dtoUser.modificationDate = listUser[i].modificationDate;
+
+                listDtoUser.Add(dtoUser);
+            }
+
+            return listDtoUser;
+        }
+
         public DtoUser getByPk(string pk)
         {
             using DataBaseContext dbc = new();
