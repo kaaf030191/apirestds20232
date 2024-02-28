@@ -68,7 +68,24 @@ namespace _5._0.DataAccessLayer.Query
 
         public int insert(DtoUser dto)
         {
-            throw new NotImplementedException();
+            using DataBaseContext dbc = new();
+
+            User user = new();
+
+            user.idUser = dto.idUser;
+            user.username = dto.username;
+            user.password = dto.password;
+            user.firstName = dto.firstName;
+            user.surName = dto.surName;
+            user.dni = dto.dni;
+            user.birthDate = dto.birthDate;
+            user.gender = dto.gender;
+            user.registerDate = dto.registerDate;
+            user.modificationDate = dto.modificationDate;
+
+            dbc.Add(user);
+
+            return dbc.SaveChanges();
         }
 
         public int update(DtoUser dto)
