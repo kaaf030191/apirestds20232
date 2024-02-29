@@ -21,14 +21,22 @@ namespace _3._0.BusinessLayer.Business.User
             return mo;
         }
 
-        public DtoUser getByPk(string pk) 
+        public (DtoMessageObject, DtoUser) getByPk(string pk) 
         {
-            return repoUser.getByPk(pk);
+            DtoMessageObject mo = new();
+
+            mo.success();
+
+            return (mo, repoUser.getByPk(pk));
         }
 
-        public List<DtoUser> getAll() 
+        public (DtoMessageObject, List<DtoUser>) getAll() 
         {
-            return repoUser.getAll();
+            DtoMessageObject mo = new();
+
+            mo.success();
+
+            return (mo, repoUser.getAll());
         }
     }
 }
