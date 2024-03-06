@@ -1,42 +1,82 @@
 ﻿using _0._0.DataTransferLayer.Objects;
 using _0._0.DataTransferLayer.OtherObjects;
+using _3._0.BusinessLayer.Generic;
+using System.Transactions;
 
 namespace _3._0.BusinessLayer.Business.User
 {
-    public partial class BusinessUser
+    public partial class BusinessUser : BusinessGeneric
     {
-        public DtoMessageObject Insert(DtoUser dto)
+        public DtoMessageObject insert(DtoUser dtoUser)
         {
-            dto.idUser = Guid.NewGuid().ToString();
-            dto.registerDate = DateTime.Now;
-            dto.modificationDate = dto.registerDate;
+            using TransactionScope transactionScope = new();
 
-            repoUser.insert(dto);
+            insertValidation(dtoUser);
 
-            DtoMessageObject mo = new();
+            if (_mo.exsistsMessage()) 
+            {
+                return _mo;
+            }
 
-            mo.addMessage("Operación realizada correctamente.");
-            mo.success();
+            dtoUser.idUser = Guid.NewGuid().ToString();
+            dtoUser.registerDate = DateTime.Now;
+            dtoUser.modificationDate = dtoUser.registerDate;
 
-            return mo;
+            repoUser.insert(dtoUser);
+
+            transactionScope.Complete();
+
+            _mo.addMessage("Operación realizada correctamente.");
+            _mo.success();
+
+            return _mo;
         }
 
         public (DtoMessageObject, DtoUser) getByPk(string pk) 
         {
-            DtoMessageObject mo = new();
+            _mo.success();
 
-            mo.success();
-
-            return (mo, repoUser.getByPk(pk));
+            return (_mo, repoUser.getByPk(pk));
         }
 
         public (DtoMessageObject, List<DtoUser>) getAll() 
         {
-            DtoMessageObject mo = new();
+            _mo.success();
 
-            mo.success();
+            return (_mo, repoUser.getAll());
+        }
 
-            return (mo, repoUser.getAll());
+        public DtoMessageObject delete(string idUser)
+        {
+            repoUser.delete(idUser);
+
+            _mo.addMessage("Operación realizada correctamente.");
+            _mo.success();
+
+            return _mo;
+        }
+
+        public DtoMessageObject update(DtoUser dtoUser) 
+        {
+            using TransactionScope transactionScope = new();
+
+            updateValidation(dtoUser);
+
+            if (_mo.exsistsMessage())
+            {
+                return _mo;
+            }
+
+            dtoUser.modificationDate = DateTime.Now;
+
+            repoUser.update(dtoUser);
+
+            transactionScope.Complete();
+
+            _mo.addMessage("Operación realizada correctamente.");
+            _mo.success();
+
+            return _mo;
         }
     }
 }

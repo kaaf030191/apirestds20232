@@ -9,88 +9,74 @@ namespace _5._0.DataAccessLayer.Query
     {
         public int delete(string id)
         {
-            throw new NotImplementedException();
+            using DataBaseContext dbc = new();
+
+            int quantityRegisterModify = 0;
+
+            User user = dbc.Users.Find(id);
+
+            if (user is not null) 
+            {
+                dbc.Users.Remove(user);
+
+                quantityRegisterModify = dbc.SaveChanges();
+            }
+
+            return quantityRegisterModify;
         }
 
         public List<DtoUser> getAll()
         {
             using DataBaseContext dbc = new();
 
-            List<User> listUser = dbc.Users.ToList();
+            return InitAutoMapper.mapper.Map<List<DtoUser>>(dbc.Users.ToList());   
+        }
 
-            List<DtoUser> listDtoUser = new List<DtoUser>();
+        public DtoUser getByDni(string dni)
+        {
+            using DataBaseContext dbc = new();
 
-            for(int i = 0; i < listUser.Count; i++)
-            {
-                DtoUser dtoUser = new();
-
-                dtoUser.idUser = listUser[i].idUser;
-                dtoUser.username = listUser[i].username;
-                dtoUser.firstName = listUser[i].firstName;
-                dtoUser.surName = listUser[i].surName;
-                dtoUser.dni = listUser[i].dni;
-                dtoUser.birthDate = listUser[i].birthDate;
-                dtoUser.gender = listUser[i].gender;
-                dtoUser.registerDate = listUser[i].registerDate;
-                dtoUser.modificationDate = listUser[i].modificationDate;
-
-                listDtoUser.Add(dtoUser);
-            }
-
-            return listDtoUser;
+            return InitAutoMapper.mapper.Map<DtoUser>(dbc.Users.Where(w => w.dni == dni).FirstOrDefault());
         }
 
         public DtoUser getByPk(string pk)
         {
             using DataBaseContext dbc = new();
 
-            User user = dbc.Users.Find(pk);
+            return InitAutoMapper.mapper.Map<DtoUser>(dbc.Users.Find(pk));
+        }
 
-            DtoUser dtoUser = null;
+        public DtoUser getByUsername(string username)
+        {
+            using DataBaseContext dbc = new();
 
-            if (user is not null)
-            {
-                dtoUser = new();
-
-                dtoUser.idUser = user.idUser;
-                dtoUser.username = user.username;
-                dtoUser.firstName = user.firstName;
-                dtoUser.surName = user.surName;
-                dtoUser.dni = user.dni;
-                dtoUser.birthDate = user.birthDate;
-                dtoUser.gender = user.gender;
-                dtoUser.registerDate = user.registerDate;
-                dtoUser.modificationDate = user.modificationDate;
-            }
-
-            return dtoUser;
+            return InitAutoMapper.mapper.Map<DtoUser>(dbc.Users.Where(w => w.username == username).FirstOrDefault());
         }
 
         public int insert(DtoUser dto)
         {
             using DataBaseContext dbc = new();
 
-            User user = new();
-
-            user.idUser = dto.idUser;
-            user.username = dto.username;
-            user.password = dto.password;
-            user.firstName = dto.firstName;
-            user.surName = dto.surName;
-            user.dni = dto.dni;
-            user.birthDate = dto.birthDate;
-            user.gender = dto.gender;
-            user.registerDate = dto.registerDate;
-            user.modificationDate = dto.modificationDate;
-
-            dbc.Add(user);
+            dbc.Add(InitAutoMapper.mapper.Map<User>(dto));
 
             return dbc.SaveChanges();
         }
 
         public int update(DtoUser dto)
         {
-            throw new NotImplementedException();
+            using DataBaseContext dbc = new();
+
+            User user = dbc.Users.Find(dto.idUser);
+
+            user.username = dto.username;
+            user.firstName = dto.firstName;
+            user.surName = dto.surName;
+            user.dni = dto.dni;
+            user.birthDate = dto.birthDate;
+            user.gender = dto.gender;
+            user.modificationDate = dto.modificationDate;
+
+            return dbc.SaveChanges();
         }
     }
 }

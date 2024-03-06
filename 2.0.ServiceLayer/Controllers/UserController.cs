@@ -29,7 +29,7 @@ namespace _2._0.ServiceLayer.Controllers
                     return _so;
                 }
 
-                _so.mo = _business.Insert(so.dtoUser);
+                _so.mo = _business.insert(so.dtoUser);
             }
             catch (Exception ex)
             {
@@ -54,6 +54,47 @@ namespace _2._0.ServiceLayer.Controllers
         public ActionResult<SoUser> GetAll() 
         {
             (_so.mo, _so.listDtoUser) = _business.getAll();
+
+            return _so;
+        }
+
+        [HttpDelete]
+        [Route("[action]")]
+        public ActionResult<SoUser> Delete(string idUser)
+        {
+            _so.mo = _business.delete(idUser);
+
+            return _so;
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public ActionResult<SoUser> Update(SoUser so)
+        {
+            try
+            {
+                _so.mo = ValidatePartDto(so.dtoUser, new string[] {
+                    "idUser",
+                    "username",
+                    "firstName",
+                    "surName",
+                    "dni",
+                    "birthDate",
+                    "gender"
+                });
+
+                if (_so.mo.exsistsMessage())
+                {
+                    return _so;
+                }
+
+                _so.mo = _business.update(so.dtoUser);
+            }
+            catch (Exception ex)
+            {
+                _so.mo.listMessage.Add(ex.Message);
+                _so.mo.exception();
+            }
 
             return _so;
         }
